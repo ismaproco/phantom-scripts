@@ -14,7 +14,7 @@ page.open(url,function() {
 
 page.onError = function (msg, trace) {
       console.log(msg);
-          trace.forEach(function(item) {
-                    console.log('  ', item.file, ':', item.line);
-                        });
+      trace.forEach(function(item) {
+         console.log('  ', item.file, ':', item.line);
+       });
 };
