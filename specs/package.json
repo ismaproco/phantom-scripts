@@ -1,0 +1,15 @@
+{
+  "name": "phantom-urltoimg-specs",
+  "version": "1.0.0",
+  "description": "specs for the exports and scripts",
+  "main": "main.spec.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "koa": "^1.2.4",
+    "phantom": "^4.0.0"
+  },
+  "author": "@ismaproco",
+  "license": "MIT"
+}
