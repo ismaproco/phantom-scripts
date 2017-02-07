@@ -30,7 +30,7 @@ app.use(function *(next){
 //
 function validateRecaptcha ( recaptcha_response ) {  
   const recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-  const SECRET = '6Ld9lBQUAAAAAJaDTL2DNRpNe2QQgw0io69deUKS';
+  const SECRET = '6LdsvRQUAAAAAMis59qfkEXLNcTslrVdjvZSB3Bs';
   
   let _headers = {};
   var _form = new FormData();
@@ -38,6 +38,9 @@ function validateRecaptcha ( recaptcha_response ) {
 
   _form.append('secret', SECRET);
   _form.append('response', recaptcha_response);
+
+  console.log('response', recaptcha_response, SECRET);
+
 
   let options = { 
       method: 'POST',
