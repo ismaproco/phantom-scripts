@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>The HTML5 Herald</title>
+  <title>URL-2-IMG</title>
   <meta name="description" content="url2img">
   <meta name="author" content="maxhine.com">
   <link rel="stylesheet" href="css/styles.css?v=1.0">
@@ -13,14 +13,61 @@
 </head>
 <body>
     <div>
-        <input type="text" name="url_input" />
+        <input type="text" name="url_input" id="urlTxt" value="http://www.google.com"/>
         <div class="g-recaptcha" data-sitekey="6LdsvRQUAAAAAPVnw9uU7C-RqSkEXob3KlMqCTz_" data-callback="getResponse"></div>
-        <button>get image</button>
+        <button id="getImageBtn" >get image</button>
+    </div>
+    <div id="imgContainer">
+
     </div>
   <script type="text/javascript">
+    var getImageBtn = document.getElementById('getImageBtn');
+    var urlTxt = document.getElementById('urlTxt');
+
+    var recaptchaResponse;
+
     function getResponse(response) {
         console.warn(response);
+        recaptchaResponse = response;
+        getImageBtn.style.display = 'block';
     }
+
+    function addImage(src) {
+      var img = document.createElement("img");
+      img.src = src.split('/')[2];
+
+      var container = document.getElementById("imgContainer");
+      container.appendChild(img);
+    }
+
+
+
+    (function init() {
+      getImageBtn.addEventListener( 'click', function(event) {
+        fetch('http://localhost:3000/', {
+          method: 'POST', 
+          mode: 'cors', 
+          redirect: 'follow',
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          }),
+          body: JSON.stringify({
+            recaptcha: recaptchaResponse, 
+            url: urlTxt.value
+          })
+        }).then(function( response ) { 
+          console.log('external response', response );
+          return response.json();
+        }).then(function(json){
+          console.log('json -> ', json );
+          addImage(json.imgSrc);
+        });
+      });
+
+      //hide button
+      getImageBtn.style.display = 'none';
+    })();
+
   </script>
 </body>
 </html>
