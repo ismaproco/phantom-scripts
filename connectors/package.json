@@ -13,6 +13,7 @@
     "koa": "^1.2.4",
     "koa-body": "^1.6.0",
     "node-fetch": "^1.6.3",
+    "parse-domain": "^1.1.0",
     "phantom": "^4.0.0"
   }
 }
