@@ -4,14 +4,14 @@
 
 ## TODO
 
-- Create koa's middleware to use the phantom class for image generation
-- Create class to validate the validity of an url
+
 - Add the calls to the html to validate the url and recaptcha validity
 - include img url as the result of the recaptcha resolve
 
 
 ## DONE
-
+- Added url validation to the koa's middleware
+- Create koa's middleware to use the phantom class for image generation (connectors/koa-url2img.js)
 - Created script for the image creation from url using phantom native node module
 - Created basic middle ware in koa
 - Created koa's fetch to validate the recaptchas validity

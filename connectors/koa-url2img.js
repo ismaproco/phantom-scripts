@@ -3,6 +3,7 @@ var koaBody   = require('koa-body');
 var fetch = require('node-fetch');
 var FormData = require('form-data');
 var parseDomain = require('parse-domain');
+var validUrl = require('valid-url');
 var url2img = require('../exports/url2img-phantom');
 
 var app = koa();
@@ -30,9 +31,18 @@ app.use(function *(next){
 // get promise with the image's src from url
 //
 function getImgSrcFromUrl ( URL = '' ) {
+  let $result;
   // parse input domain
   let domainParts = parseDomain(URL);
-  let $result = url2img.phantomUrl2Img(URL, `${Date.now()}-${domainParts.domain}-img.png`);
+  
+  if( domainParts ) {
+    $result = url2img.phantomUrl2Img(URL, `${Date.now()}-${domainParts.domain}-img.png`);
+  } else {
+    $result = new Promise((resolve)=>{
+      resolve('{error: "domain undefined"}');
+    });
+  }
+  
   return $result;
 }
 
@@ -45,11 +55,15 @@ app.use(function *(){
     url = this.request.body.url || '';
   }
 
-  yield getImgSrcFromUrl( url ).then(( json ) => {
+  if ( validUrl.isUri(url) ) {
+    yield getImgSrcFromUrl( url ).then(( json ) => {
       console.log('json -> ', json);
       this.body = json;
-  });
-  
+    });
+  } else {
+    this.body = '{error: "Invalid URL"}';
+  }
+
 });
 
 // start listening in the port
