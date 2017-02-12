@@ -46,16 +46,60 @@ function getImgSrcFromUrl ( URL = '' ) {
   return $result;
 }
 
+// validate fetch response
+//
+function validateRecaptcha ( recaptcha_response ) {  
+  const recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
+  const SECRET = '6LdsvRQUAAAAAMis59qfkEXLNcTslrVdjvZSB3Bs';
+  
+  let _headers = {};
+  var _form = new FormData();
+  var result$ = {};
+
+  _form.append('secret', SECRET);
+  _form.append('response', recaptcha_response);
+
+  console.log('response', recaptcha_response, SECRET);
+
+
+  let options = { 
+      method: 'POST',
+      headers: _headers,
+      body: _form
+  };
+
+  result$ = fetch( recaptcha_url , options)
+  .then(function(response) {
+      return response.json();
+  });
+
+  return result$;
+}
+
 // response
 //
 app.use(function *(){
   let url = '';
+  let recaptcha = '';
+
+  let captcha_result = false;
 
   if ( this.request.body ) {
     url = this.request.body.url || '';
+    recaptcha = this.request.body.recaptcha || '';
   }
 
-  if ( validUrl.isUri(url) ) {
+  yield validateRecaptcha( recaptcha ).then(( json ) => {
+      if( json ) {
+        captcha_result = json.success;
+      }
+
+      console.log('+ captcha_result', captcha_result);
+  });
+
+  console.log('++ proceding to generate image', captcha_result, url);
+
+  if (captcha_result && validUrl.isUri(url) ) {
     yield getImgSrcFromUrl( url ).then(( json ) => {
       console.log('json -> ', json);
       this.body = json;
