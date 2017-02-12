@@ -5,8 +5,13 @@ var FormData = require('form-data');
 var parseDomain = require('parse-domain');
 var validUrl = require('valid-url');
 var url2img = require('../exports/url2img-phantom');
+var cors = require('koa-cors');
+
 
 var app = koa();
+
+// enable cors in the server
+app.use(cors());
 
 app.use(koaBody({formidable:{uploadDir: __dirname}}));
 
@@ -30,18 +35,10 @@ app.use(function *(next){
 
 // get promise with the image's src from url
 //
-function getImgSrcFromUrl ( URL = '' ) {
+function getImgSrcFromUrl ( URL = '' , path = '') {
   let $result;
-  // parse input domain
-  let domainParts = parseDomain(URL);
   
-  if( domainParts ) {
-    $result = url2img.phantomUrl2Img(URL, `${Date.now()}-${domainParts.domain}-img.png`);
-  } else {
-    $result = new Promise((resolve)=>{
-      resolve('{error: "domain undefined"}');
-    });
-  }
+  $result = url2img.phantomUrl2Img(URL, path );
   
   return $result;
 }
@@ -81,8 +78,10 @@ function validateRecaptcha ( recaptcha_response ) {
 app.use(function *(){
   let url = '';
   let recaptcha = '';
-
   let captcha_result = false;
+  const imgPathPrefix = '../static';
+  let imgName; 
+  
 
   if ( this.request.body ) {
     url = this.request.body.url || '';
@@ -93,19 +92,34 @@ app.use(function *(){
       if( json ) {
         captcha_result = json.success;
       }
-
       console.log('+ captcha_result', captcha_result);
   });
+
+  // parse input domain
+  let domainParts = parseDomain( url );
+  
+  if( captcha_result && domainParts ) {
+    imgName = `${Date.now()}-${domainParts.domain}-img.png`;
+  } else {
+    console.log('++ Invalid URL');
+    captcha_result = false;
+  }
+
+  const imgPath = `${imgPathPrefix}/${imgName}`;
 
   console.log('++ proceding to generate image', captcha_result, url);
 
   if (captcha_result && validUrl.isUri(url) ) {
-    yield getImgSrcFromUrl( url ).then(( json ) => {
+    yield getImgSrcFromUrl( url, imgPath ).then(( json ) => {
+      
+      //this should be updated to return the full image path.
+      json.imgSrc = imgPath;
+
       console.log('json -> ', json);
       this.body = json;
     });
   } else {
-    this.body = '{error: "Invalid URL"}';
+    this.body = '{error: "Input parameters are invalid"}';
   }
 
 });
@@ -114,4 +128,4 @@ app.use(function *(){
 app.listen(3000);
 
 console.log(`start listening in port ${PORT}`);
-// curl --data "url=http://www.google.com" http://localhost:3000
+// curl --data "recaptcha=abc&&url=http://www.google.com" http://localhost:3000
