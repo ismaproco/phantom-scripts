@@ -12,6 +12,7 @@
     "form-data": "^2.1.2",
     "koa": "^1.2.4",
     "koa-body": "^1.6.0",
+    "koa-cors": "0.0.16",
     "node-fetch": "^1.6.3",
     "parse-domain": "^1.1.0",
     "phantom": "^4.0.0",
