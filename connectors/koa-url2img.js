@@ -7,12 +7,10 @@ var validUrl = require('valid-url');
 var url2img = require('../exports/url2img-phantom');
 var cors = require('koa-cors');
 
-
 var app = koa();
 
 // enable cors in the server
 app.use(cors());
-
 app.use(koaBody({formidable:{uploadDir: __dirname}}));
 
 const PORT = 3000;
@@ -79,7 +77,7 @@ app.use(function *(){
   let url = '';
   let recaptcha = '';
   let captcha_result = false;
-  const imgPathPrefix = '../static';
+  const imgPathPrefix = './static';
   let imgName; 
   
 
