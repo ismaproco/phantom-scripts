@@ -1,46 +1,36 @@
-var getImageBtn = document.getElementById('getImageBtn');
-var urlTxt = document.getElementById('urlTxt');
+function addImageToPage(src) {
+  var img = document.createElement("img");
+  img.src = src.split('/')[2];
 
-var recaptchaResponse;
+  var container = document.getElementById("imgContainer");
+  container.appendChild(img);
+}
+
+function getImage(_captchaResponse, _url) {
+  fetch('http://localhost:3000/', {
+    method: 'POST',
+    mode: 'cors',
+    redirect: 'follow',
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+    body: JSON.stringify({
+      recaptcha: _captchaResponse,
+      url: _url
+    })
+  }).then(function (response) {
+    console.log('external response', response);
+    return response.json();
+  }).then(function (json) {
+    console.log('json -> ', json);
+    addImageToPage(json.imgSrc);
+  });
+}
+
 
 function getResponse(response) {
-    console.warn(response);
-    recaptchaResponse = response;
-    getImageBtn.style.display = 'block';
+  let recaptchaResponse = response;
+  let urlTxt = document.getElementById('urlTxt').value;
+  console.warn(response);
+  getImage(recaptchaResponse, urlTxt);
 }
-
-function addImage(src) {
-    var img = document.createElement("img");
-    img.src = src.split('/')[2];
-
-    var container = document.getElementById("imgContainer");
-    container.appendChild(img);
-}
-
-
-
-(function init() {
-    getImageBtn.addEventListener( 'click', function(event) {
-    fetch('http://localhost:3000/', {
-        method: 'POST', 
-        mode: 'cors', 
-        redirect: 'follow',
-        headers: new Headers({
-        'Content-Type': 'application/json'
-        }),
-        body: JSON.stringify({
-        recaptcha: recaptchaResponse, 
-        url: urlTxt.value
-        })
-    }).then(function( response ) { 
-        console.log('external response', response );
-        return response.json();
-    }).then(function(json){
-        console.log('json -> ', json );
-        addImage(json.imgSrc);
-    });
-    });
-
-    //hide button
-    getImageBtn.style.display = 'none';
-})();

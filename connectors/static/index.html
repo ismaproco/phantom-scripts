@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>URL-2-IMG</title>
+  <title>web2image</title>
   <meta name="description" content="url2img">
   <meta name="author" content="maxhine.com">
+  <link href="https://fonts.googleapis.com/css?family=Laila" rel="stylesheet">
   <link rel="stylesheet" href="styles.css?v=1.0">
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
@@ -13,10 +14,12 @@
   
 </head>
 <body>
-  <div>
-    <input type="text" name="url_input" id="urlTxt" value="http://www.google.com"/>
+  <div class="header">
+    <h1>Web 2 Image</h1>
+  </div>
+  <div class="content">
+    <input type="text" name="url_input" id="urlTxt" value="http://www.google.com" placeholder="Type a url"/>
     <div class="g-recaptcha" data-sitekey="6LdsvRQUAAAAAPVnw9uU7C-RqSkEXob3KlMqCTz_" data-callback="getResponse"></div>
-    <button id="getImageBtn" >get image</button>
   </div>
   <div id="imgContainer">
   </div>
