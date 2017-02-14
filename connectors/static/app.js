@@ -2,7 +2,10 @@ function addImageToPage(src) {
   var img = document.createElement("img");
   img.src = src.split('/')[2];
 
-  var container = document.getElementById("imgContainer");
+  var container = document.querySelector('.img-container');
+  var content = document.querySelector('.content');
+
+  content.style.display = 'none';
   container.appendChild(img);
 }
 
