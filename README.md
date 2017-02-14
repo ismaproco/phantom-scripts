@@ -4,12 +4,13 @@
 
 ## TODO
 
-
-- Add the calls to the html to validate the url and recaptcha validity
-- include img url as the result of the recaptcha resolve
-
+- show animation while the url is being processed.
+- make the image height to keep the aspect ratio.
+- create build for simple deployment.
 
 ## DONE
+- Add the calls to the html to validate the url and recaptcha validity
+- include img url as the result of the recaptcha resolve
 - Added url validation to the koa's middleware
 - Create koa's middleware to use the phantom class for image generation (connectors/koa-url2img.js)
 - Created script for the image creation from url using phantom native node module
