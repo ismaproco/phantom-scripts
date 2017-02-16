@@ -55,10 +55,16 @@ function containersVisibilityByState(state) {
   }
 }
 
-
 function getResponse(response) {
   let recaptchaResponse = response;
   let urlTxt = document.getElementById('urlTxt').value;
   console.warn(response);
   getImage(recaptchaResponse, urlTxt);
+}
+
+window.onload = function() {
+  var btnReload = document.querySelector('.another-btn');
+  btnReload.addEventListener('click', function() {
+    location.href = '/';
+  });
 }
