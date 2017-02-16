@@ -4,11 +4,13 @@
 
 ## TODO
 
-- show animation while the url is being processed.
+
 - make the image height to keep the aspect ratio.
 - create build for simple deployment.
 
 ## DONE
+- Added button to reload the page for new images to be loaded
+- show animation while the url is being processed.
 - Add the calls to the html to validate the url and recaptcha validity
 - include img url as the result of the recaptcha resolve
 - Added url validation to the koa's middleware
