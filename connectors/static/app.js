@@ -8,7 +8,7 @@ function addImageToPage(src) {
 function getImage(_captchaResponse, _url) {
   setTimeout(function(){
     containersVisibilityByState( 'loading' );
-      fetch('http://localhost:3000/', {
+      fetch('/webimg', {
         method: 'POST',
         mode: 'cors',
         redirect: 'follow',
