@@ -4,6 +4,7 @@
 
 ## TODO
 
+
 - return the path where the img will be accessible
 - add the secret koa-img2url as a config parameter in a external file
 - add the path to generate the images as a config parameter for the koa-img2url
@@ -13,6 +14,9 @@
 - test deploy in raspberry pi.
 - make the image height to keep the aspect ratio.
 - add dimensions to the image generation script.
+
+- find a way to monitor the node js service
+
 
 ## DONE
 - add a footer with the maxhine information.
