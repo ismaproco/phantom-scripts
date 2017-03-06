@@ -95,7 +95,7 @@ app.use(function *(){
 
   // parse input domain
   let domainParts = parseDomain( url );
-  captcha_result = true;
+  
   if( captcha_result && domainParts ) {
     imgName = `${Date.now()}-${domainParts.domain}-img.png`;
   } else {
