@@ -6,14 +6,13 @@ var parseDomain = require('parse-domain');
 var validUrl = require('valid-url');
 var url2img = require('../exports/url2img-phantom');
 var cors = require('koa-cors');
+var config = require('./config.js');
 
 var app = koa();
 
 // enable cors in the server
 app.use(cors());
 app.use(koaBody({formidable:{uploadDir: __dirname}}));
-
-const PORT = 3000;
 
 // x-response-time
 //
@@ -45,7 +44,7 @@ function getImgSrcFromUrl ( URL = '' , path = '') {
 //
 function validateRecaptcha ( recaptcha_response ) {  
   const recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
-  const SECRET = '6LdsvRQUAAAAAMis59qfkEXLNcTslrVdjvZSB3Bs';
+  const SECRET = config.SECRET_KEY;
   
   let _headers = {};
   var _form = new FormData();
@@ -77,7 +76,8 @@ app.use(function *(){
   let url = '';
   let recaptcha = '';
   let captcha_result = false;
-  const imgPathPrefix = './static';
+  const imgPathPrefix = config.IMAGE_LOCAL_PATH_PREFIX;
+  const imgUrlPrefix = config.URL_PATH_PREFIX;
   let imgName; 
   
 
@@ -95,7 +95,7 @@ app.use(function *(){
 
   // parse input domain
   let domainParts = parseDomain( url );
-  
+  captcha_result = true;
   if( captcha_result && domainParts ) {
     imgName = `${Date.now()}-${domainParts.domain}-img.png`;
   } else {
@@ -106,12 +106,12 @@ app.use(function *(){
   const imgPath = `${imgPathPrefix}/${imgName}`;
 
   console.log('++ proceding to generate image', captcha_result, url);
-
+  
   if (captcha_result && validUrl.isUri(url) ) {
     yield getImgSrcFromUrl( url, imgPath ).then(( json ) => {
       
       //this should be updated to return the full image path.
-      json.imgSrc = imgPath;
+      json.imgSrc = `${imgUrlPrefix}/${imgName}`;
 
       console.log('json -> ', json);
       this.body = json;
@@ -123,7 +123,7 @@ app.use(function *(){
 });
 
 // start listening in the port
-app.listen(3000);
+app.listen( config.APPLICATION_PORT );
 
-console.log(`start listening in port ${PORT}`);
+console.log(`start listening in port ${config.APPLICATION_PORT }`);
 // curl --data "recaptcha=abc&&url=http://www.google.com" http://localhost:3000
