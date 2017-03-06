@@ -38,3 +38,6 @@ jspm_packages
 
 # MacOS temp files
 .DS_Store
+
+#configuration files
+config.js
