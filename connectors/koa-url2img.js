@@ -4,9 +4,9 @@ var fetch = require('node-fetch');
 var FormData = require('form-data');
 var parseDomain = require('parse-domain');
 var validUrl = require('valid-url');
-var url2img = require('../exports/url2img-phantom');
 var cors = require('koa-cors');
 var config = require('./config.js');
+var url2img = require('./url2img-phantom');
 
 var app = koa();
 
