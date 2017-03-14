@@ -8,11 +8,12 @@
 - create deployment strategy.
 - test deploy in raspberry pi.
 
-- add dimensions to the image generation script.
+
 - find a way to monitor the node js service -> check [https://www.youtube.com/watch?v=05WRwM1D6tU]
 
 ## DONE
 
+- add dimensions to the image generation script.
 - make the image height to keep the aspect ratio.
 - return the path where the img will be accessible
 - add the secret koa-img2url as a config parameter in a external file
