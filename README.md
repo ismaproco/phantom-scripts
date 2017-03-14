@@ -4,21 +4,19 @@
 
 ## TODO
 
-
-- return the path where the img will be accessible
-- add the secret koa-img2url as a config parameter in a external file
-- add the path to generate the images as a config parameter for the koa-img2url
-
 - create build for simple deployment.
 - create deployment strategy.
 - test deploy in raspberry pi.
-- make the image height to keep the aspect ratio.
+
 - add dimensions to the image generation script.
-
-- find a way to monitor the node js service
-
+- find a way to monitor the node js service -> check [https://www.youtube.com/watch?v=05WRwM1D6tU]
 
 ## DONE
+
+- make the image height to keep the aspect ratio.
+- return the path where the img will be accessible
+- add the secret koa-img2url as a config parameter in a external file
+- add the path to generate the images as a config parameter for the koa-img2url
 - add a footer with the maxhine information.
 - Added button to reload the page for new images to be loaded
 - show animation while the url is being processed.

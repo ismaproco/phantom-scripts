@@ -9,7 +9,7 @@ const viewportSizes = {
     p4k: { width: 3840, height: 2160 },
 }
 
-var u2i$ = u2i.phantomUrl2Img( URL, 'p800'+IMAGE_PATH, viewportSizes.p800);
+var u2i$ = u2i.phantomUrl2Img( URL, 'p800_'+IMAGE_PATH, viewportSizes.p800);
 
 // wait for the promise to complete
 u2i$.then((resultObj) => {
